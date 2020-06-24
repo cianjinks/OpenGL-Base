@@ -20,7 +20,8 @@ project "OpenGL-Sandbox"
 		"../OpenGL-Base/%{IncludeDir.glm}",
 		"../OpenGL-Base/%{IncludeDir.Glad}",
 		"../OpenGL-Base/%{IncludeDir.ImGui}",
-		"../OpenGL-Base/%{IncludeDir.GLFW}"
+		"../OpenGL-Base/%{IncludeDir.GLFW}",
+		"../OpenGL-Base/%{IncludeDir.stb_image}",
 	}
 
 	links

@@ -97,4 +97,11 @@ namespace GLBase {
             glDeleteProgram(program);
         }
     }
+
+    void Shader::SetUniMat4f(const char* name, glm::mat4& matrix)
+    {
+        unsigned int location = glGetUniformLocation(m_Program, name);
+        glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+
+    }
 }

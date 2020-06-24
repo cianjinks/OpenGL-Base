@@ -1,5 +1,9 @@
-#include "glad/glad.h"
+#include "imgui.h"
+#include "examples/imgui_impl_glfw.h"
+#include "examples/imgui_impl_opengl3.h"
+
 #include "GLFW/glfw3.h"
+#include "glad/glad.h"
 
 #include <iostream>
 #include "Application.h"
@@ -20,7 +24,7 @@ int main()
 	}
 
 	GLBase::Application* app = GLBase::CreateApplication();
-	GLFWwindow* window = app->getWindow();
+	GLFWwindow* window = app->GetWindow();
 
 	if (!window)
 	{
@@ -46,13 +50,36 @@ int main()
 	app->Init();
 	app->Setup();
 
+	/****** IMGUI ******/
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 410");
+	/*******************/
+
 	while (!glfwWindowShouldClose(window)) {
-		glClear(GL_COLOR_BUFFER_BIT);
+		float currentFrame = (float)glfwGetTime();
+		app->m_DeltaTime = currentFrame - app->m_LastFrame;
+		app->m_LastFrame = currentFrame;
 		app->Loop();
+
+		/****** IMGUI ******/
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		app->ImGuiRender();
+		io.DisplaySize = ImVec2(app->GetWindowWidth() , app->GetWindowHeight());
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		/*******************/
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-
 	}
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 	delete app;
 	return 0;
 }

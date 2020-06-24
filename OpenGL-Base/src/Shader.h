@@ -1,9 +1,11 @@
 #pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
 #include <iostream>
 #include <fstream>
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 namespace GLBase {
 	class Shader
@@ -16,6 +18,9 @@ namespace GLBase {
 		unsigned int GetProgram();
 		void Bind();
 		void UnBind();
+
+		// Uniforms
+		void SetUniMat4f(const char* name, glm::mat4& matrix);
 	private:
 		void CreateProgram();
 		void AddShader(GLenum type, const char* path);
@@ -23,5 +28,4 @@ namespace GLBase {
         static std::string ParseShaderFromFile(const char* filename);
 		static void ErrorHandleShader(GLuint& shader, GLuint& program);
 	};
-
 }
