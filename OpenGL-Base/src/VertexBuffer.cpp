@@ -12,6 +12,7 @@ namespace GLBase {
 		glBufferData(GL_ARRAY_BUFFER, m_NumVertices * sizeof(float), m_Vertices, GL_STATIC_DRAW);
 	}
 
+	// TODO: Avoid data copying if possible
 	VertexBuffer::VertexBuffer(std::vector<float>& vertices)
 		: m_Vertices(vertices.data()), m_NumVertices(vertices.size())
 	{

@@ -17,5 +17,8 @@
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
 #include "Texture.h"
+#include "Vertex.h"
+#include "Quad.h"
+#include "Cube.h"
 #include "Shader.h"
 #include "Application.h"
