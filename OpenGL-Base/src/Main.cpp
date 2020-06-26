@@ -73,13 +73,17 @@ int main()
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		/*******************/
-
-		glfwSwapBuffers(window);
+		
 		glfwPollEvents();
+		glfwSwapBuffers(window);
 	}
+
+	delete app;
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
-	delete app;
+	
+	glfwDestroyWindow(window);
+	glfwTerminate();
 	return 0;
 }

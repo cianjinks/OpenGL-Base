@@ -2,6 +2,7 @@
 **bin-int/
 *.user
 *imgui.ini
+*.zip
 
 .vs/
 *.sln

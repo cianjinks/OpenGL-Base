@@ -15,5 +15,7 @@
 
 // Custom Classes
 #include "IndexBuffer.h"
+#include "VertexBuffer.h"
+#include "Texture.h"
 #include "Shader.h"
 #include "Application.h"

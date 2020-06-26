@@ -7,7 +7,7 @@ namespace GLBase {
 	{
 
 	public:
-		GLFWwindow* m_Window;
+		GLFWwindow* m_Window = nullptr;
 		float m_DeltaTime = 0.0f;
 		float m_LastFrame = 0.0f;
 

@@ -22,7 +22,7 @@ namespace GLBase {
 	
 	IndexBuffer::~IndexBuffer()
 	{
-		
+		delete[] m_Indices;
 	}
 
 	void IndexBuffer::Bind()
