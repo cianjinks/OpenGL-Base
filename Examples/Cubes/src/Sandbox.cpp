@@ -129,9 +129,9 @@ void Sandbox::ImGuiRender()
 
 void Sandbox::Setup()
 {
-	const int numVertices = 5 * 24; 
+	int numVertices = 5 * 24; 
 
-	float vertices[numVertices] = {
+	std::vector<float> vertices = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
 		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
@@ -163,20 +163,55 @@ void Sandbox::Setup()
 		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f
 	};
 
-	unsigned int vaoID;
+	/**CUBE TEST**/
+	int xCubes = 50;
+	int yCubes = 50;
+	int zCubes = 50;
+	int calculateVertices = xCubes * yCubes * zCubes * 6 * 4 * 5;
+	int processedVertices = 0;
+	int calculateCubes = xCubes * yCubes * zCubes;
+	int processedCubes = 0;
+	for (int x = -xCubes; x < xCubes; x++) {
+		for (int z = -zCubes; z < zCubes; z++) {
+			std::unique_ptr<GLBase::Cube> cube = std::make_unique<GLBase::Cube>(x, 1.0f, z, 1.0f);
+			std::vector<GLBase::Quad*> quads = cube->GetQuads();
+
+			for (GLBase::Quad* quad : quads) {
+				std::vector<GLBase::Vertex*> quadVertices = quad->GetVertices();
+				for (int i = 0; i < quadVertices.size(); i++)
+				{
+					std::vector<float> quadVertex = quadVertices.at(i)->GetVertex();
+					for (int j = 0; j < GLBase::Vertex::TotalElementCount; j++)
+					{
+						vertices.emplace_back(quadVertex.at(j));
+						processedVertices++;
+						//std::cout << "[LOADING] Processed Vertices: (" << processedVertices << "/" << calculateVertices << ") | ";
+						//std::cout << "Processed Cubes: (" << processedCubes << "/" << calculateCubes << ")";
+						//std::cout << "\r\r";
+					}
+				}
+			}
+			processedCubes++;
+		}
+	}
+	std::cout << std::endl;
+	/*************/
+
 	glGenVertexArrays(1, &vaoID);
 	glBindVertexArray(vaoID);
 
-	m_VBO = new GLBase::VertexBuffer(vertices, numVertices);
-	m_VBO->AddVertexAttribute(0, 3, false, 5, 0);
-	m_VBO->AddVertexAttribute(1, 2, false, 5, 3);
+	m_VBO = new GLBase::VertexBuffer(vertices);
+	m_VBO->AddVertexAttribute(0, GLBase::Vertex::PositionElementCount, false, GLBase::Vertex::TotalElementCount, 0);
+	m_VBO->AddVertexAttribute(1, GLBase::Vertex::TextureElementCount, false, GLBase::Vertex::TotalElementCount, GLBase::Vertex::PositionElementCount);
 	m_VBO->ActivateVertexAttribute(0);
 	m_VBO->ActivateVertexAttribute(1);
 
-	int indicesCount = 6 * 6; // 6 per face
+	int numFaces = 6 * 2 * xCubes * 2 * zCubes + 6;
+	int processedIndices = 0;
+	int indicesCount = numFaces * 6; // 6 per face
 	std::vector<unsigned int> indices(indicesCount);
 	int j = 0;
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < numFaces; i++)
 	{
 		indices.emplace_back(j);
 		indices.emplace_back(++j);
@@ -185,11 +220,14 @@ void Sandbox::Setup()
 		indices.emplace_back(++j);
 		indices.emplace_back(j - 3);
 		++j;
+		processedIndices += 6;
+		//std::cout << "[LOADING] Processed Indices: (" << processedIndices << "/" << indicesCount << ")";
+		//std::cout << "\r";
 	}
 
 	m_IBO = new GLBase::IndexBuffer(indices);
 
-	m_Texture1 = new GLBase::Texture("assets/textures/container.jpg", true);
+	m_Texture1 = new GLBase::Texture("assets/textures/white-tile.jpg", true);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -198,6 +236,9 @@ void Sandbox::Setup()
 	m_Shader = new GLBase::Shader("assets/shaders/vert.glsl", "assets/shaders/frag.glsl");
 
 	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_FRONT);
+	//glFrontFace(GL_CW);
 }
 
 void Sandbox::Loop()
@@ -205,8 +246,8 @@ void Sandbox::Loop()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.76f, 1.0f, 1.0f);
 	this->PollInput();
-	m_VBO->Bind();
-	m_IBO->Bind();
+
+	glBindVertexArray(vaoID);
 	m_Texture1->Bind();
 	m_Shader->Bind();
 
@@ -215,7 +256,7 @@ void Sandbox::Loop()
 	// Model
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.0f));
-	model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+	//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 	// View - Camera Calculations
 	glm::mat4 view = glm::lookAt(m_CameraPos, m_CameraPos + m_CameraFront, m_CameraUp);
 	// Projection
@@ -226,7 +267,7 @@ void Sandbox::Loop()
 
 	m_Shader->SetUniMat4f("u_TransformMatrix", mvp);
 	glDrawElements(GL_TRIANGLES, m_IBO->GetNumIndices(), GL_UNSIGNED_INT, 0);
-	
+#if 0	
 	// CUBE 2
 	
 	// Model
@@ -249,27 +290,34 @@ void Sandbox::Loop()
 
 	m_Shader->SetUniMat4f("u_TransformMatrix", mvp);
 	glDrawElements(GL_TRIANGLES, m_IBO->GetNumIndices(), GL_UNSIGNED_INT, 0);
-
+#endif
 	m_Shader->UnBind();
 	m_Texture1->UnBind();
-	m_IBO->UnBind();
-	m_VBO->UnBind();
+	glBindVertexArray(0);
 }
 
 void Sandbox::PollInput()
 {
-	float cameraSpeed = 2.5f * m_DeltaTime;
 	if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS) {
-		m_CameraPos += cameraSpeed * m_CameraFront;
+		m_CameraPos += m_CameraSpeed * m_CameraFront;
 	}
 	if (glfwGetKey(m_Window, GLFW_KEY_S) == GLFW_PRESS) {
-		m_CameraPos -= cameraSpeed * m_CameraFront;
+		m_CameraPos -= m_CameraSpeed * m_CameraFront;
 	}
 	if (glfwGetKey(m_Window, GLFW_KEY_A) == GLFW_PRESS) {
-		m_CameraPos -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * cameraSpeed;
+		m_CameraPos -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * m_CameraSpeed;
 	}
 	if (glfwGetKey(m_Window, GLFW_KEY_D) == GLFW_PRESS) {
-		m_CameraPos += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * cameraSpeed;
+		m_CameraPos += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * m_CameraSpeed;
+	}
+
+	if (glfwGetKey(m_Window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) 
+	{
+		m_CameraSpeed = 5.0f * m_DeltaTime;
+	}
+	else
+	{
+		m_CameraSpeed = 2.5f * m_DeltaTime;
 	}
 }
 

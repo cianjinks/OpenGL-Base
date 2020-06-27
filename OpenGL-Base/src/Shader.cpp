@@ -15,6 +15,17 @@ namespace GLBase {
         glDeleteProgram(m_Program);
     }
 
+    void Shader::Replace(const char* vertSrc, const char* fragSrc)
+    {
+        for (int i = 0; i < m_ShaderObjs.size(); i++)
+        {
+            glDetachShader(m_Program, m_ShaderObjs[i]);
+        }
+        AddShader(GL_VERTEX_SHADER, vertSrc);
+        AddShader(GL_FRAGMENT_SHADER, fragSrc);
+        Validate();
+    }
+
     unsigned int Shader::GetProgram()
     {
         return m_Program;
@@ -46,6 +57,7 @@ namespace GLBase {
             glCompileShader(shaderObj);
             ErrorHandleShader(shaderObj, m_Program);
             glAttachShader(m_Program, shaderObj);
+            m_ShaderObjs.push_back(shaderObj);
             glDeleteShader(shaderObj);
         }
         else

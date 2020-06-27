@@ -6,9 +6,12 @@ class Sandbox : public GLBase::Application
 private:
 	float m_WindowWidth, m_WindowHeight;
 	GLBase::Shader* m_Shader = nullptr;
+	GLBase::Shader* m_SkyShader = nullptr;
 	GLBase::IndexBuffer* m_IBO = nullptr;
 	GLBase::VertexBuffer* m_VBO = nullptr;
 	GLBase::Texture* m_Texture1 = nullptr;
+
+	unsigned int vaoID = 0;
 
 	// Camera
 	glm::vec3 m_CameraPos = glm::vec3(0.0f, 0.0f, 10.0f);
@@ -18,6 +21,7 @@ private:
 	float m_CameraYaw = -90.0f;
 	float m_CameraPitch = 0.0f;
 	float m_CameraFOV = 45.0f;
+	float m_CameraSpeed = 2.5f * m_DeltaTime;
 
 	float m_MouseX = m_WindowWidth / 2;
 	float m_MouseY = m_WindowHeight / 2;
