@@ -24,6 +24,9 @@ namespace GLBase {
 
 		// Uniforms
 		void SetUniMat4f(const char* name, glm::mat4& matrix);
+		void SetUniVec3f(const char* name, float x, float y, float z);
+		void SetUniVec1f(const char* name, float f);
+		void SetUniVec1i(const char* name, int i);
 	private:
 		void CreateProgram();
 		void Validate();

@@ -15,6 +15,7 @@ namespace GLBase {
         glDeleteProgram(m_Program);
     }
 
+    // Reads from disk every frame which is horrific
     void Shader::Replace(const char* vertSrc, const char* fragSrc)
     {
         for (int i = 0; i < m_ShaderObjs.size(); i++)
@@ -115,5 +116,23 @@ namespace GLBase {
         unsigned int location = glGetUniformLocation(m_Program, name);
         glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 
+    }
+
+    void Shader::SetUniVec3f(const char* name, float x, float y, float z)
+    {
+        unsigned int location = glGetUniformLocation(m_Program, name);
+        glUniform3f(location, x, y, z);
+    }
+
+    void Shader::SetUniVec1f(const char* name, float f)
+    {
+        unsigned int location = glGetUniformLocation(m_Program, name);
+        glUniform1f(location, f);
+    }
+
+    void Shader::SetUniVec1i(const char* name, int i)
+    {
+        unsigned int location = glGetUniformLocation(m_Program, name);
+        glUniform1i(location, i);
     }
 }

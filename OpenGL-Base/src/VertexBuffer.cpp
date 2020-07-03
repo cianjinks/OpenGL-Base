@@ -55,4 +55,9 @@ namespace GLBase {
 	{
 		return m_NumVertices;
 	}
+
+	unsigned int VertexBuffer::GetBufferID()
+	{
+		return m_BufferID;
+	}
 }

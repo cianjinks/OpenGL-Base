@@ -20,6 +20,7 @@ namespace GLBase {
 		void ActivateVertexAttribute(int id);
 		void DisableVertexAttribute(int id);
 
+		unsigned int GetBufferID();
 		unsigned int GetNumVertices();
 	};
 }

@@ -27,5 +27,7 @@ namespace GLBase
 		float GetY();
 		float GetZ();
 		float GetScale();
+
+		static int VerticesPerCube;
 	};
 }

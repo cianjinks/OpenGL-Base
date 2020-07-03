@@ -7,40 +7,40 @@ namespace GLBase {
 	{
 		switch (m_Direction) {
 			case QuadDirection::PositiveX :
-				v1 = new Vertex(x, y - (scale / 2), z + (scale / 2), 0.0f, 0.0f);
-				v2 = new Vertex(x, y - (scale / 2), z - (scale / 2), 1.0f, 0.0f);
-				v3 = new Vertex(x, y + (scale / 2), z - (scale / 2), 1.0f, 1.0f);
-				v4 = new Vertex(x, y + (scale / 2), z + (scale / 2), 0.0f, 1.0f);
+				v1 = new Vertex(x, y - (scale / 2), z + (scale / 2), 0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+				v2 = new Vertex(x, y - (scale / 2), z - (scale / 2), 1.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+				v3 = new Vertex(x, y + (scale / 2), z - (scale / 2), 1.0f, 1.0f, 1.0f, 0.0f, 0.0f);
+				v4 = new Vertex(x, y + (scale / 2), z + (scale / 2), 0.0f, 1.0f, 1.0f, 0.0f, 0.0f);
 				break;
 			case QuadDirection::NegativeX :
-				v1 = new Vertex(x, y - (scale / 2), z - (scale / 2), 0.0f, 0.0f);
-				v2 = new Vertex(x, y - (scale / 2), z + (scale / 2), 1.0f, 0.0f);
-				v3 = new Vertex(x, y + (scale / 2), z + (scale / 2), 1.0f, 1.0f);
-				v4 = new Vertex(x, y + (scale / 2), z - (scale / 2), 0.0f, 1.0f);
+				v1 = new Vertex(x, y - (scale / 2), z - (scale / 2), 0.0f, 0.0f, -1.0f, 0.0f, 0.0f);
+				v2 = new Vertex(x, y - (scale / 2), z + (scale / 2), 1.0f, 0.0f, -1.0f, 0.0f, 0.0f);
+				v3 = new Vertex(x, y + (scale / 2), z + (scale / 2), 1.0f, 1.0f, -1.0f, 0.0f, 0.0f);
+				v4 = new Vertex(x, y + (scale / 2), z - (scale / 2), 0.0f, 1.0f, -1.0f, 0.0f, 0.0f);
 				break;
 			case QuadDirection::PositiveY :
-				v1 = new Vertex(x - (scale / 2), y, z + (scale / 2), 0.0f, 0.0f);
-				v2 = new Vertex(x + (scale / 2), y, z + (scale / 2), 1.0f, 0.0f);
-				v3 = new Vertex(x + (scale / 2), y, z - (scale / 2), 1.0f, 1.0f);
-				v4 = new Vertex(x - (scale / 2), y, z - (scale / 2), 0.0f, 1.0f);
+				v1 = new Vertex(x - (scale / 2), y, z + (scale / 2), 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+				v2 = new Vertex(x + (scale / 2), y, z + (scale / 2), 1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+				v3 = new Vertex(x + (scale / 2), y, z - (scale / 2), 1.0f, 1.0f, 0.0f, 1.0f, 0.0f);
+				v4 = new Vertex(x - (scale / 2), y, z - (scale / 2), 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
 				break;
 			case QuadDirection::NegativeY :
-				v1 = new Vertex(x - (scale / 2), y, z - (scale / 2), 0.0f, 0.0f);
-				v2 = new Vertex(x + (scale / 2), y, z - (scale / 2), 1.0f, 0.0f);
-				v3 = new Vertex(x + (scale / 2), y, z + (scale / 2), 1.0f, 1.0f);
-				v4 = new Vertex(x - (scale / 2), y, z + (scale / 2), 0.0f, 1.0f);
+				v1 = new Vertex(x - (scale / 2), y, z - (scale / 2), 0.0f, 0.0f, 0.0f, -1.0f, 0.0f);
+				v2 = new Vertex(x + (scale / 2), y, z - (scale / 2), 1.0f, 0.0f, 0.0f, -1.0f, 0.0f);
+				v3 = new Vertex(x + (scale / 2), y, z + (scale / 2), 1.0f, 1.0f, 0.0f, -1.0f, 0.0f);
+				v4 = new Vertex(x - (scale / 2), y, z + (scale / 2), 0.0f, 1.0f, 0.0f, -1.0f, 0.0f);
 				break;
 			case QuadDirection::PositiveZ :
-				v1 = new Vertex(x - (scale / 2), y - (scale / 2), z, 0.0f, 0.0f);
-				v2 = new Vertex(x + (scale / 2), y - (scale / 2), z, 1.0f, 0.0f);
-				v3 = new Vertex(x + (scale / 2), y + (scale / 2), z, 1.0f, 1.0f);
-				v4 = new Vertex(x - (scale / 2), y + (scale / 2), z, 0.0f, 1.0f);
+				v1 = new Vertex(x - (scale / 2), y - (scale / 2), z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+				v2 = new Vertex(x + (scale / 2), y - (scale / 2), z, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+				v3 = new Vertex(x + (scale / 2), y + (scale / 2), z, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+				v4 = new Vertex(x - (scale / 2), y + (scale / 2), z, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
 				break;
 			case QuadDirection::NegativeZ :
-				v1 = new Vertex(x - (scale / 2), y - (scale / 2), z, 0.0f, 0.0f);
-				v2 = new Vertex(x + (scale / 2), y - (scale / 2), z, 1.0f, 0.0f);
-				v3 = new Vertex(x + (scale / 2), y + (scale / 2), z, 1.0f, 1.0f);
-				v4 = new Vertex(x - (scale / 2), y + (scale / 2), z, 0.0f, 1.0f);
+				v1 = new Vertex(x - (scale / 2), y - (scale / 2), z, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f);
+				v2 = new Vertex(x + (scale / 2), y - (scale / 2), z, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f);
+				v3 = new Vertex(x + (scale / 2), y + (scale / 2), z, 1.0f, 1.0f, 0.0f, 0.0f, -1.0f);
+				v4 = new Vertex(x - (scale / 2), y + (scale / 2), z, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f);
 				break;
 		}
 	}

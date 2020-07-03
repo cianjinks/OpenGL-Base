@@ -2,6 +2,8 @@
 
 namespace GLBase
 {
+	int Cube::VerticesPerCube = 4 * 6;
+
 	Cube::Cube(float x, float y, float z, float scale)
 		: m_X(x), m_Y(y), m_Z(z), m_Scale(scale)
 	{
